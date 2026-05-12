@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Block admin page from crawling
+Disallow: /admin.html
+
+Sitemap: https://galleryhouse.in/sitemap.xml

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Checkout – Gallery House</title>
+<meta name="description" content="Secure checkout for your premium electronics purchase at Gallery House." />
+<meta name="keywords" content="checkout, secure payment, buy electronics, gallery house checkout" />
+<meta name="author" content="Gallery House" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#6C63FF" />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d0d1a;--surface:#13132a;--surface2:#1a1a35;--accent:#6C63FF;--accent2:#00C9FF;--pink:#f5576c;--green:#43e97b;--text:#e8e8f0;--muted:#8888aa;--border:#ffffff18;--r:14px}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh}
+.navbar{background:rgba(13,13,26,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo-text{font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.nav-back{color:var(--muted);font-size:.9rem;display:flex;align-items:center;gap:6px;transition:color .2s}
+.nav-back:hover{color:var(--accent)}
+
+/* Steps */
+.steps{display:flex;align-items:center;justify-content:center;gap:0;padding:28px 20px;background:var(--surface);border-bottom:1px solid var(--border)}
+.step{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600}
+.step-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700}
+.step.done .step-num{background:var(--green);color:#0d0d1a}
+.step.active .step-num{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.step.pending .step-num{background:var(--surface2);color:var(--muted)}
+.step.active{color:var(--text)}
+.step.pending{color:var(--muted)}
+.step-line{width:60px;height:2px;background:var(--border);margin:0 8px}
+.step-line.done{background:var(--green)}
+
+/* Layout */
+.checkout-wrap{max-width:1100px;margin:0 auto;padding:32px 20px;display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:start}
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:20px}
+.section-head{padding:18px 24px;border-bottom:1px solid var(--border);font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.section-body{padding:24px}
+
+/* Form */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-row.full{grid-template-columns:1fr}
+.form-group{display:flex;flex-direction:column;gap:6px}
+label{color:var(--muted);font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+input,select,textarea{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Outfit',sans-serif;font-size:.9rem;outline:none;padding:11px 14px;transition:border-color .2s;width:100%}
+input:focus,select:focus{border-color:var(--accent)}
+select option{background:var(--surface2)}
+
+/* Location btn */
+.locate-btn{width:100%;background:rgba(0,201,255,.1);border:1px solid rgba(0,201,255,.3);border-radius:8px;color:var(--accent2);cursor:pointer;font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:600;padding:12px;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;margin-top:10px}
+.locate-btn:hover{background:rgba(0,201,255,.2)}
+.location-result{background:rgba(67,233,123,.08);border:1px solid rgba(67,233,123,.2);border-radius:8px;padding:12px 14px;margin-top:10px;font-size:.85rem;line-height:1.5;color:var(--green);display:none}
+
+/* EMI selector */
+.emi-options{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.emi-opt{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--muted);cursor:pointer;font-size:.82rem;font-weight:600;padding:8px 14px;transition:all .2s}
+.emi-opt.selected{background:rgba(108,99,255,.15);border-color:var(--accent);color:var(--accent)}
+
+/* Order Summary */
+.order-sticky{position:sticky;top:80px}
+.cart-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.cart-item:last-child{border-bottom:none}
+.item-emoji{font-size:1.8rem;background:var(--surface2);border-radius:10px;width:50px;height:50px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.item-info{flex:1}
+.item-name{font-size:.88rem;font-weight:600;margin-bottom:2px}
+.item-brand{color:var(--muted);font-size:.75rem}
+.item-qty{color:var(--muted);font-size:.78rem}
+.item-price{color:var(--accent2);font-weight:700;font-size:.9rem;text-align:right;white-space:nowrap}
+.remove-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:4px;transition:color .2s}
+.remove-btn:hover{color:var(--pink)}
+.totals{margin-top:4px}
+.total-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:.9rem;color:var(--muted)}
+.total-row.main{color:var(--text);font-size:1.05rem;font-weight:800;border-top:1px solid var(--border);padding-top:14px;margin-top:4px}
+.total-row .val{font-weight:600}
+.total-row.main .val{color:var(--accent2);font-size:1.15rem}
+.empty-cart{text-align:center;padding:30px;color:var(--muted)}
+.place-order-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#fff;cursor:pointer;font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;padding:15px;margin-top:16px;transition:opacity .2s}
+.place-order-btn:hover{opacity:.85}
+.secure-note{text-align:center;color:var(--muted);font-size:.78rem;margin-top:10px}
+
+/* Success */
+#success-screen{display:none;text-align:center;padding:60px 20px;max-width:600px;margin:0 auto}
+.success-icon{font-size:5rem;margin-bottom:20px}
+.success-title{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--green),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
+.success-sub{color:var(--muted);font-size:1rem;margin-bottom:30px;line-height:1.6}
+.success-id{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 24px;font-size:.9rem;margin-bottom:24px}
+.success-id strong{color:var(--accent2)}
+.btn-back{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;color:#fff;font-weight:700;padding:13px 32px;transition:opacity .2s}
+.btn-back:hover{opacity:.85}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(60px);background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;color:#fff;font-weight:600;font-size:.9rem;opacity:0;padding:11px 26px;pointer-events:none;transition:all .35s;z-index:9999;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:768px){
+  .checkout-wrap{grid-template-columns:1fr}
+  .order-sticky{position:static}
+  .form-row{grid-template-columns:1fr}
+  .steps{gap:0;padding:16px}
+  .step-line{width:30px}
+  .step span:last-child{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="logo-text">GALLERY HOUSE</a>
+  <a href="index.html" class="nav-back">← Continue Shopping</a>
+</nav>
+
+<!-- Steps -->
+<div class="steps">
+  <div class="step done" id="s1"><div class="step-num">✓</div><span>Cart</span></div>
+  <div class="step-line done"></div>
+  <div class="step active" id="s2"><div class="step-num">2</div><span>Your Details</span></div>
+  <div class="step-line" id="sl2"></div>
+  <div class="step pending" id="s3"><div class="step-num">3</div><span>Confirm</span></div>
+</div>
+
+<!-- SUCCESS SCREEN -->
+<div id="success-screen">
+  <div class="success-icon">🎉</div>
+  <div class="success-title">Order Placed!</div>
+  <p class="success-sub">Thank you for shopping with Gallery House!<br>Your order has been confirmed and will be delivered soon.</p>
+  <div class="success-id">
+    Order ID: <strong id="order-id"></strong><br>
+    Estimated Delivery: <strong>Under 24 hours</strong>
+  </div>
+  <a href="index.html" class="btn-back">🏠 Back to Home</a>
+</div>
+
+<!-- CHECKOUT CONTENT -->
+<div id="checkout-content">
+<div class="checkout-wrap">
+
+  <!-- LEFT: Form -->
+  <div>
+
+    <!-- Personal Details -->
+    <div class="section-card">
+      <div class="section-head">👤 Personal Details</div>
+      <div class="section-body">
+        <div class="form-row">
+          <div class="form-group"><label>Full Name *</label><input id="f-name" placeholder="e.g. Rahul Sharma" required/></div>
+          <div class="form-group"><label>Phone Number *</label><input id="f-phone" type="tel" placeholder="+91 98765 43210" required/></div>
+        </div>
+        <div class="form-row full">
+          <div class="form-group"><label>Email Address <span style="color:#8888aa;font-size:.75rem;font-weight:400;text-transform:none">(optional)</span></label><input id="f-email" type="email" placeholder="rahul@email.com"/></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delivery Address -->
+    <div class="section-card">
+      <div class="section-head">📍 Delivery Address</div>
+      <div class="section-body">
+        <div class="form-row full">
+          <div class="form-group"><label>Flat / House / Building *</label><input id="f-address1" placeholder="House No, Street Name, Colony"/></div>
+        </div>
+        <div class="form-row full">
+          <div class="form-group"><label>Landmark (Optional)</label><input id="f-landmark" placeholder="Near bus stand, school, etc."/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>City *</label><input id="f-city" placeholder="New Delhi"/></div>
+          <div class="form-group"><label>State *</label>
+            <select id="f-state">
+              <option value="">Select State</option>
+              <option>Andhra Pradesh</option><option>Assam</option><option>Bihar</option>
+              <option>Delhi</option><option>Gujarat</option><option>Haryana</option>
+              <option>Himachal Pradesh</option><option>Jharkhand</option><option>Karnataka</option>
+              <option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option>
+              <option>Punjab</option><option>Rajasthan</option><option>Tamil Nadu</option>
+              <option>Telangana</option><option>Uttar Pradesh</option><option>West Bengal</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Pincode *</label><input id="f-pin" type="number" placeholder="110019" maxlength="6"/></div>
+          <div class="form-group"><label>Country</label><input value="India" readonly style="opacity:.6"/></div>
+        </div>
+        <button class="locate-btn" onclick="detectLocation()">📍 Auto-Detect My Location</button>
+        <div class="location-result" id="loc-result"></div>
+      </div>
+    </div>
+
+    <!-- Payment -->
+    <div class="section-card">
+      <div class="section-head">💵 Payment Option</div>
+      <div class="section-body">
+        <input type="hidden" id="f-payment" value="cod"/>
+        <div style="display:flex;align-items:center;gap:14px;background:rgba(67,233,123,.08);border:1px solid rgba(67,233,123,.25);border-radius:12px;padding:16px 20px">
+          <span style="font-size:2rem">💵</span>
+          <div>
+            <div style="font-weight:700;font-size:1rem">Cash on Delivery</div>
+            <div style="color:#8888aa;font-size:.85rem;margin-top:2px">Pay when your order arrives at your door</div>
+          </div>
+          <span style="margin-left:auto;background:rgba(67,233,123,.15);color:#43e97b;font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:99px">✓ Selected</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Order Summary -->
+  <div class="order-sticky">
+    <div class="section-card">
+      <div class="section-head">🛒 Order Summary</div>
+      <div class="section-body">
+        <div id="cart-items-list"></div>
+        <div class="totals" id="totals-wrap"></div>
+        <button class="place-order-btn" onclick="placeOrder()">✅ Place Order</button>
+        <p class="secure-note">🔒 Secure & Encrypted Checkout</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="products-data.js"></script>
+<script>
+// (COD only — no EMI toggle needed)
+
+
+// Render cart
+function renderCart(){
+  const cart=getCart();
+  const listEl=document.getElementById('cart-items-list');
+  if(!cart.length){listEl.innerHTML='<div class="empty-cart">🛒 Cart is empty</div>';document.getElementById('totals-wrap').innerHTML='';return;}
+  listEl.innerHTML=cart.map((item, idx)=>`
+    <div class="cart-item">
+      <div class="item-emoji">${item.photo?`<img src="${item.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:8px">`:item.emoji}</div>
+      <div class="item-info">
+        <div class="item-name">${item.name}</div>
+        <div class="item-brand">${item.brand} ${item.variants && item.variants.storage ? `· ${item.variants.storage}` : ''}</div>
+        ${item.variants && item.variants.color ? `<div style="display:flex;align-items:center;gap:4px;font-size:0.75rem;color:#8888aa;margin-top:2px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${item.variants.color.hex}"></span> ${item.variants.color.name}</div>` : ''}
+        <div class="item-qty">Qty: ${item.qty}</div>
+      </div>
+      <div>
+        <div class="item-price">₹${(item.price*item.qty).toLocaleString('en-IN')}</div>
+        <button class="remove-btn" onclick="removeItem(${idx})">🗑️</button>
+      </div>
+    </div>`).join('');
+  const subtotal=getCartTotal();
+  const shipping=subtotal>999?0:99;
+  const total=subtotal+shipping;
+  document.getElementById('totals-wrap').innerHTML=`
+    <div class="totals">
+      <div class="total-row"><span>Subtotal (${cart.reduce((s,i)=>s+i.qty,0)} items)</span><span class="val">₹${subtotal.toLocaleString('en-IN')}</span></div>
+      <div class="total-row"><span>Delivery</span><span class="val" style="color:var(--green)">${shipping===0?'FREE':'₹'+shipping}</span></div>
+      <div class="total-row"><span>Discount</span><span class="val" style="color:var(--pink)">-₹${cart.reduce((s,i)=>s+((i.mrp-i.price)*i.qty),0).toLocaleString('en-IN')}</span></div>
+      <div class="total-row main"><span>Total Amount</span><span class="val">₹${total.toLocaleString('en-IN')}</span></div>
+    </div>`;
+}
+
+function removeItem(idx){
+  const cart = getCart();
+  cart.splice(idx, 1);
+  saveCart(cart);
+  renderCart();
+}
+
+// Geolocation
+function detectLocation(){
+  const btn=document.querySelector('.locate-btn');
+  btn.textContent='⏳ Detecting…';
+  btn.disabled=true;
+  if(!navigator.geolocation){showToast('Geolocation not supported');btn.textContent='📍 Auto-Detect My Location';btn.disabled=false;return;}
+  navigator.geolocation.getCurrentPosition(async pos=>{
+    const {latitude,longitude}=pos.coords;
+    try{
+      const r=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
+      const d=await r.json();
+      const addr=d.address||{};
+      const city=addr.city||addr.town||addr.village||'';
+      const state=addr.state||'';
+      const pin=addr.postcode||'';
+      const road=addr.road||addr.suburb||'';
+      if(city) document.getElementById('f-city').value=city;
+      if(pin) document.getElementById('f-pin').value=pin;
+      if(road) document.getElementById('f-address1').value=road;
+      // Try to match state
+      const sel=document.getElementById('f-state');
+      for(let i=0;i<sel.options.length;i++){
+        if(sel.options[i].text.toLowerCase()===state.toLowerCase()){sel.selectedIndex=i;break;}
+      }
+      const locEl=document.getElementById('loc-result');
+      locEl.style.display='block';
+      locEl.innerHTML=`✅ Location detected!<br>📍 ${d.display_name||`${city}, ${state} - ${pin}`}<br><small style="color:var(--muted)">Lat: ${latitude.toFixed(4)}, Lng: ${longitude.toFixed(4)}</small>`;
+    }catch(e){showToast('Could not fetch address details');}
+    btn.textContent='📍 Location Detected ✓';
+  },err=>{
+    showToast('Location access denied');
+    btn.textContent='📍 Auto-Detect My Location';
+    btn.disabled=false;
+  },{timeout:10000});
+}
+
+// Place order
+function placeOrder(){
+  const name=document.getElementById('f-name').value.trim();
+  const phone=document.getElementById('f-phone').value.trim();
+  const addr=document.getElementById('f-address1').value.trim();
+  const city=document.getElementById('f-city').value.trim();
+  const pin=document.getElementById('f-pin').value.trim();
+  if(!name){showToast('⚠️ Enter your name');return;}
+  if(!phone||phone.length<10){showToast('⚠️ Enter a valid phone number');return;}
+  if(!addr){showToast('⚠️ Enter delivery address');return;}
+  if(!city){showToast('⚠️ Enter city');return;}
+  if(!pin||pin.length!==6){showToast('⚠️ Enter valid 6-digit pincode');return;}
+  if(!getCart().length){showToast('⚠️ Cart is empty');return;}
+  const email=document.getElementById('f-email').value.trim();
+  const orderId='GH-'+Date.now().toString().slice(-8).toUpperCase();
+  const now = new Date();
+  const order={id:orderId,name,phone,email:email||null,address:`${addr}, ${city}, ${pin}`,total:getCartTotal(),items:getCart(),date:now.toLocaleDateString('en-IN'),time:now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', hour12:true}),status:'New'};
+  const orders=JSON.parse(localStorage.getItem('gh_orders')||'[]');
+  orders.push(order);
+  localStorage.setItem('gh_orders',JSON.stringify(orders));
+  clearCart();
+  document.getElementById('order-id').textContent=orderId;
+  document.getElementById('checkout-content').style.display='none';
+  document.querySelector('.steps').style.display='none';
+  document.getElementById('success-screen').style.display='block';
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// Init
+renderCart();
+</script>
+</body>
+</html>
