@@ -13,7 +13,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0d0d1a;--surface:#13132a;--surface2:#1a1a35;--accent:#6C63FF;--accent2:#00C9FF;--pink:#f5576c;--green:#43e97b;--text:#e8e8f0;--muted:#8888aa;--border:#ffffff18;--r:14px}
 body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh}
-.navbar{background:rgba(13,13,26,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.navbar{background:rgba(13,13,26,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;posi[...]
 .logo-text{font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .nav-back{color:var(--muted);font-size:.9rem;display:flex;align-items:center;gap:6px;transition:color .2s}
 .nav-back:hover{color:var(--accent)}
@@ -41,14 +41,9 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-
 .form-row.full{grid-template-columns:1fr}
 .form-group{display:flex;flex-direction:column;gap:6px}
 label{color:var(--muted);font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
-input,select,textarea{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Outfit',sans-serif;font-size:.9rem;outline:none;padding:11px 14px;transition:border-color .2s;width:100%}
+input,select,textarea{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Outfit',sans-serif;font-size:.9rem;outline:none;padding:11px 14px;t[...]
 input:focus,select:focus{border-color:var(--accent)}
 select option{background:var(--surface2)}
-
-/* Location btn */
-.locate-btn{width:100%;background:rgba(0,201,255,.1);border:1px solid rgba(0,201,255,.3);border-radius:8px;color:var(--accent2);cursor:pointer;font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:600;padding:12px;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;margin-top:10px}
-.locate-btn:hover{background:rgba(0,201,255,.2)}
-.location-result{background:rgba(67,233,123,.08);border:1px solid rgba(67,233,123,.2);border-radius:8px;padding:12px 14px;margin-top:10px;font-size:.85rem;line-height:1.5;color:var(--green);display:none}
 
 /* EMI selector */
 .emi-options{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
@@ -73,20 +68,20 @@ select option{background:var(--surface2)}
 .total-row .val{font-weight:600}
 .total-row.main .val{color:var(--accent2);font-size:1.15rem}
 .empty-cart{text-align:center;padding:30px;color:var(--muted)}
-.place-order-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#fff;cursor:pointer;font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;padding:15px;margin-top:16px;transition:opacity .2s}
+.place-order-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#fff;cursor:pointer;font-family:'Outfit',sans-serif;font-size:1rem;[...]
 .place-order-btn:hover{opacity:.85}
 .secure-note{text-align:center;color:var(--muted);font-size:.78rem;margin-top:10px}
 
 /* Success */
 #success-screen{display:none;text-align:center;padding:60px 20px;max-width:600px;margin:0 auto}
 .success-icon{font-size:5rem;margin-bottom:20px}
-.success-title{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--green),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
+.success-title{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--green),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;m[...]
 .success-sub{color:var(--muted);font-size:1rem;margin-bottom:30px;line-height:1.6}
 .success-id{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 24px;font-size:.9rem;margin-bottom:24px}
 .success-id strong{color:var(--accent2)}
 .btn-back{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;color:#fff;font-weight:700;padding:13px 32px;transition:opacity .2s}
 .btn-back:hover{opacity:.85}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(60px);background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;color:#fff;font-weight:600;font-size:.9rem;opacity:0;padding:11px 26px;pointer-events:none;transition:all .35s;z-index:9999;white-space:nowrap}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(60px);background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;color:#fff;font-weight:600[...]
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:768px){
   .checkout-wrap{grid-template-columns:1fr}
@@ -142,7 +137,7 @@ select option{background:var(--surface2)}
           <div class="form-group"><label>Phone Number *</label><input id="f-phone" type="tel" placeholder="+91 98765 43210" required/></div>
         </div>
         <div class="form-row full">
-          <div class="form-group"><label>Email Address <span style="color:#8888aa;font-size:.75rem;font-weight:400;text-transform:none">(optional)</span></label><input id="f-email" type="email" placeholder="rahul@email.com"/></div>
+          <div class="form-group"><label>Email Address <span style="color:#8888aa;font-size:.75rem;font-weight:400;text-transform:none">(optional)</span></label><input id="f-email" type="email" placeholder="your.email@example.com"/></div>
         </div>
       </div>
     </div>
@@ -175,8 +170,6 @@ select option{background:var(--surface2)}
           <div class="form-group"><label>Pincode *</label><input id="f-pin" type="number" placeholder="110019" maxlength="6"/></div>
           <div class="form-group"><label>Country</label><input value="India" readonly style="opacity:.6"/></div>
         </div>
-        <button class="locate-btn" onclick="detectLocation()">📍 Auto-Detect My Location</button>
-        <div class="location-result" id="loc-result"></div>
       </div>
     </div>
 
@@ -232,7 +225,7 @@ function renderCart(){
       <div class="item-info">
         <div class="item-name">${item.name}</div>
         <div class="item-brand">${item.brand} ${item.variants && item.variants.storage ? `· ${item.variants.storage}` : ''}</div>
-        ${item.variants && item.variants.color ? `<div style="display:flex;align-items:center;gap:4px;font-size:0.75rem;color:#8888aa;margin-top:2px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${item.variants.color.hex}"></span> ${item.variants.color.name}</div>` : ''}
+        ${item.variants && item.variants.color ? `<div style="display:flex;align-items:center;gap:4px;font-size:0.75rem;color:#8888aa;margin-top:2px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${item.variants.color.hex}"></span>${item.variants.color.name}</div>` : ''}
         <div class="item-qty">Qty: ${item.qty}</div>
       </div>
       <div>
@@ -259,42 +252,6 @@ function removeItem(idx){
   renderCart();
 }
 
-// Geolocation
-function detectLocation(){
-  const btn=document.querySelector('.locate-btn');
-  btn.textContent='⏳ Detecting…';
-  btn.disabled=true;
-  if(!navigator.geolocation){showToast('Geolocation not supported');btn.textContent='📍 Auto-Detect My Location';btn.disabled=false;return;}
-  navigator.geolocation.getCurrentPosition(async pos=>{
-    const {latitude,longitude}=pos.coords;
-    try{
-      const r=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
-      const d=await r.json();
-      const addr=d.address||{};
-      const city=addr.city||addr.town||addr.village||'';
-      const state=addr.state||'';
-      const pin=addr.postcode||'';
-      const road=addr.road||addr.suburb||'';
-      if(city) document.getElementById('f-city').value=city;
-      if(pin) document.getElementById('f-pin').value=pin;
-      if(road) document.getElementById('f-address1').value=road;
-      // Try to match state
-      const sel=document.getElementById('f-state');
-      for(let i=0;i<sel.options.length;i++){
-        if(sel.options[i].text.toLowerCase()===state.toLowerCase()){sel.selectedIndex=i;break;}
-      }
-      const locEl=document.getElementById('loc-result');
-      locEl.style.display='block';
-      locEl.innerHTML=`✅ Location detected!<br>📍 ${d.display_name||`${city}, ${state} - ${pin}`}<br><small style="color:var(--muted)">Lat: ${latitude.toFixed(4)}, Lng: ${longitude.toFixed(4)}</small>`;
-    }catch(e){showToast('Could not fetch address details');}
-    btn.textContent='📍 Location Detected ✓';
-  },err=>{
-    showToast('Location access denied');
-    btn.textContent='📍 Auto-Detect My Location';
-    btn.disabled=false;
-  },{timeout:10000});
-}
-
 // Place order
 function placeOrder(){
   const name=document.getElementById('f-name').value.trim();
@@ -311,7 +268,7 @@ function placeOrder(){
   const email=document.getElementById('f-email').value.trim();
   const orderId='GH-'+Date.now().toString().slice(-8).toUpperCase();
   const now = new Date();
-  const order={id:orderId,name,phone,email:email||null,address:`${addr}, ${city}, ${pin}`,total:getCartTotal(),items:getCart(),date:now.toLocaleDateString('en-IN'),time:now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', hour12:true}),status:'New'};
+  const order={id:orderId,name,phone,email:email||null,address:`${addr}, ${city}, ${pin}`,total:getCartTotal(),items:getCart(),date:now.toLocaleDateString('en-IN'),time:now.toLocaleTimeString('en-IN')};
   const orders=JSON.parse(localStorage.getItem('gh_orders')||'[]');
   orders.push(order);
   localStorage.setItem('gh_orders',JSON.stringify(orders));
