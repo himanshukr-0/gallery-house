@@ -9,17 +9,18 @@
 <meta name="robots" content="noindex, nofollow" />
 <meta name="theme-color" content="#6C63FF" />
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0d0d1a;--surface:#13132a;--surface2:#1a1a35;--accent:#6C63FF;--accent2:#00C9FF;--pink:#f5576c;--green:#43e97b;--text:#e8e8f0;--muted:#8888aa;--border:#ffffff18;--r:14px}
 body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh}
-.navbar{background:rgba(13,13,26,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;posi[...]
+.navbar{background:rgba(13,13,26,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:0;left:0;right:0;z-index:1000}
 .logo-text{font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.nav-back{color:var(--muted);font-size:.9rem;display:flex;align-items:center;gap:6px;transition:color .2s}
+.nav-back{color:var(--muted);font-size:.9rem;display:flex;align-items:center;gap:6px;transition:color .2s;text-decoration:none}
 .nav-back:hover{color:var(--accent)}
 
 /* Steps */
-.steps{display:flex;align-items:center;justify-content:center;gap:0;padding:28px 20px;background:var(--surface);border-bottom:1px solid var(--border)}
+.steps{display:flex;align-items:center;justify-content:center;gap:0;padding:28px 20px;background:var(--surface);border-bottom:1px solid var(--border);margin-top:64px}
 .step{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600}
 .step-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700}
 .step.done .step-num{background:var(--green);color:#0d0d1a}
@@ -41,20 +42,16 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-
 .form-row.full{grid-template-columns:1fr}
 .form-group{display:flex;flex-direction:column;gap:6px}
 label{color:var(--muted);font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
-input,select,textarea{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Outfit',sans-serif;font-size:.9rem;outline:none;padding:11px 14px;t[...]
+input,select,textarea{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Outfit',sans-serif;font-size:.9rem;outline:none;padding:11px 14px;transition:border-color 0.2s}
 input:focus,select:focus{border-color:var(--accent)}
 select option{background:var(--surface2)}
 
-/* EMI selector */
-.emi-options{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
-.emi-opt{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--muted);cursor:pointer;font-size:.82rem;font-weight:600;padding:8px 14px;transition:all .2s}
-.emi-opt.selected{background:rgba(108,99,255,.15);border-color:var(--accent);color:var(--accent)}
-
 /* Order Summary */
-.order-sticky{position:sticky;top:80px}
+.order-sticky{position:sticky;top:100px}
 .cart-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
 .cart-item:last-child{border-bottom:none}
 .item-emoji{font-size:1.8rem;background:var(--surface2);border-radius:10px;width:50px;height:50px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.item-emoji img{width:100%;height:100%;object-fit:cover;border-radius:8px}
 .item-info{flex:1}
 .item-name{font-size:.88rem;font-weight:600;margin-bottom:2px}
 .item-brand{color:var(--muted);font-size:.75rem}
@@ -62,32 +59,32 @@ select option{background:var(--surface2)}
 .item-price{color:var(--accent2);font-weight:700;font-size:.9rem;text-align:right;white-space:nowrap}
 .remove-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:4px;transition:color .2s}
 .remove-btn:hover{color:var(--pink)}
-.totals{margin-top:4px}
+.totals{margin-top:12px}
 .total-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:.9rem;color:var(--muted)}
-.total-row.main{color:var(--text);font-size:1.05rem;font-weight:800;border-top:1px solid var(--border);padding-top:14px;margin-top:4px}
+.total-row.main{color:var(--text);font-size:1.05rem;font-weight:800;border-top:1px solid var(--border);padding-top:14px;margin-top:12px}
 .total-row .val{font-weight:600}
 .total-row.main .val{color:var(--accent2);font-size:1.15rem}
 .empty-cart{text-align:center;padding:30px;color:var(--muted)}
-.place-order-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#fff;cursor:pointer;font-family:'Outfit',sans-serif;font-size:1rem;[...]
+.place-order-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#fff;cursor:pointer;font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;padding:14px;margin-top:16px;transition:opacity 0.2s}
 .place-order-btn:hover{opacity:.85}
 .secure-note{text-align:center;color:var(--muted);font-size:.78rem;margin-top:10px}
 
 /* Success */
 #success-screen{display:none;text-align:center;padding:60px 20px;max-width:600px;margin:0 auto}
 .success-icon{font-size:5rem;margin-bottom:20px}
-.success-title{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--green),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;m[...]
+.success-title{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--green),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
 .success-sub{color:var(--muted);font-size:1rem;margin-bottom:30px;line-height:1.6}
 .success-id{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 24px;font-size:.9rem;margin-bottom:24px}
 .success-id strong{color:var(--accent2)}
-.btn-back{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;color:#fff;font-weight:700;padding:13px 32px;transition:opacity .2s}
+.btn-back{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;color:#fff;font-weight:700;padding:13px 32px;transition:opacity .2s;text-decoration:none}
 .btn-back:hover{opacity:.85}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(60px);background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;color:#fff;font-weight:600[...]
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(60px);background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;color:#fff;font-weight:600;padding:16px 24px;z-index:2000;opacity:0;transition:transform 0.3s}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:768px){
   .checkout-wrap{grid-template-columns:1fr}
-  .order-sticky{position:static}
+  .order-sticky{position:static;top:auto}
   .form-row{grid-template-columns:1fr}
-  .steps{gap:0;padding:16px}
+  .steps{gap:0;padding:16px;margin-top:64px}
   .step-line{width:30px}
   .step span:last-child{display:none}
 }
@@ -211,9 +208,6 @@ select option{background:var(--surface2)}
 
 <script src="products-data.js"></script>
 <script>
-// (COD only — no EMI toggle needed)
-
-
 // Render cart
 function renderCart(){
   const cart=getCart();
