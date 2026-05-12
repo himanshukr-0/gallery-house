@@ -24,6 +24,51 @@ function renderProducts(filter) {
   setupAnimations();
 }
 
+// ── Search Products ──
+function searchProducts(query) {
+  if (!query.trim()) {
+    renderProducts("all");
+    return;
+  }
+  
+  const grid = document.getElementById("products-grid");
+  const all = getProducts();
+  const queryLower = query.toLowerCase();
+  
+  const results = all.filter(p => 
+    p.name.toLowerCase().includes(queryLower) || 
+    p.brand.toLowerCase().includes(queryLower) ||
+    p.cat.toLowerCase().includes(queryLower)
+  );
+  
+  if (results.length === 0) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#8888aa">
+      <div style="font-size:3rem;margin-bottom:12px">🔍</div>
+      <p style="font-size:1.1rem">No products found for "${query}"</p>
+      <small>Try searching for: mobiles, laptops, TVs, ACs, or brands like Samsung, Apple</small>
+    </div>`;
+    return;
+  }
+  
+  grid.innerHTML = results.map(p => `
+    <div class="product-card" id="prod-card-${p.id}" data-id="${p.id}" onclick="openProdModal(${p.id})">
+      <div class="product-img">${p.photo ? `<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover" alt="${p.name}">` : p.emoji}</div>
+      <div class="product-body">
+        ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+        <div class="product-name">${p.name}</div>
+        <div class="product-brand">${p.brand}</div>
+        <div class="price-row">
+          <span class="price-now">₹${p.price.toLocaleString('en-IN')}</span>
+          <span class="price-old">₹${p.mrp.toLocaleString('en-IN')}</span>
+          <span class="price-off">${p.discount}% OFF</span>
+        </div>
+        <div style="color:#43e97b;font-size:.8rem;margin-bottom:10px">EMI ₹${calcEMI(p.price,p.emiMonths)}/mo</div>
+        <button class="add-cart-btn" id="add-${p.id}" onclick="event.stopPropagation();handleAddToCart(${p.id})">🛒 Add to Cart</button>
+      </div>
+    </div>`).join('');
+  setupAnimations();
+}
+
 // ── Cart ──
 function handleAddToCart(id) {
   const p = getProduct(id);
@@ -79,7 +124,7 @@ function renderCartSidebar() {
       <div class="cs-info">
         <div class="cs-name">${item.name}</div>
         <div class="cs-brand">${item.brand} ${item.variants && item.variants.storage ? `· ${item.variants.storage}` : ''}</div>
-        ${item.variants && item.variants.color ? `<div style="display:flex;align-items:center;gap:4px;font-size:0.7rem;color:#8888aa;margin-top:2px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${item.variants.color.hex}"></span> ${item.variants.color.name}</div>` : ''}
+        ${item.variants && item.variants.color ? `<div style="display:flex;align-items:center;gap:4px;font-size:0.7rem;color:#8888aa;margin-top:2px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${item.variants.color.hex}"></span>${item.variants.color.name}</div>` : ''}
         <div class="cs-qty-row">
           <button class="qty-btn" onclick="changeQty(${idx},-1)">−</button>
           <span class="qty-num">${item.qty}</span>
@@ -140,7 +185,7 @@ function openProdModal(id) {
       ${images.length > 1 ? `
       <div class="prod-gallery-thumbs">
         ${images.map((src, idx) => `
-          <img src="${src}" class="gallery-thumb ${idx === 0 ? 'active' : ''}" onclick="document.getElementById('main-gallery-img').src=this.src; document.querySelectorAll('.gallery-thumb').forEach(t=>t.classList.remove('active')); this.classList.add('active');" alt="thumb${idx}">
+          <img src="${src}" class="gallery-thumb ${idx === 0 ? 'active' : ''}" onclick="document.getElementById('main-gallery-img').src=this.src; document.querySelectorAll('.gallery-thumb').forEach(el=>el.classList.remove('active')); this.classList.add('active');" alt="Product image ${idx + 1}">
         `).join('')}
       </div>` : ''}
     `;
@@ -157,7 +202,7 @@ function openProdModal(id) {
         <div class="variant-group">
           <label>Color</label>
           <div class="variant-opts">
-            ${p.colors.map((c, i) => `<span class="var-color ${i===0?'active':''}" style="background:${c.hex}" title="${c.name}" onclick="document.querySelectorAll('.var-color').forEach(el=>el.classList.remove('active'));this.classList.add('active');"></span>`).join('')}
+            ${p.colors.map((c, i) => `<span class="var-color ${i===0?'active':''}" style="background:${c.hex}" title="${c.name}" onclick="document.querySelectorAll('.var-color').forEach(el=>el.classList.remove('active'));this.classList.add('active')"></span>`).join('')}
           </div>
         </div>`;
     }
@@ -166,7 +211,7 @@ function openProdModal(id) {
         <div class="variant-group">
           <label>Storage</label>
           <div class="variant-opts">
-            ${p.storages.map((s, i) => `<span class="var-chip ${i===0?'active':''}" onclick="document.querySelectorAll('.var-chip').forEach(el=>el.classList.remove('active'));this.classList.add('active');">${s}</span>`).join('')}
+            ${p.storages.map((s, i) => `<span class="var-chip ${i===0?'active':''}" onclick="document.querySelectorAll('.var-chip').forEach(el=>el.classList.remove('active'));this.classList.add('active')">${s}</span>`).join('')}
           </div>
         </div>`;
     }
@@ -258,10 +303,41 @@ window.addEventListener("scroll", () => {
 document.getElementById("search-btn").addEventListener("click", () => {
   const o = document.getElementById("search-overlay");
   o.classList.toggle("open");
-  if (o.classList.contains("open")) document.getElementById("search-input").focus();
+  if (o.classList.contains("open")) {
+    document.getElementById("search-input").focus();
+  }
 });
+
 document.getElementById("search-close").addEventListener("click", () => {
   document.getElementById("search-overlay").classList.remove("open");
+});
+
+// Search input event listener
+document.getElementById("search-input").addEventListener("input", (e) => {
+  const query = e.target.value;
+  searchProducts(query);
+  if (query.trim()) {
+    document.getElementById("featured").scrollIntoView({ behavior: "smooth" });
+  }
+});
+
+// Search on Enter key
+document.getElementById("search-input").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const query = e.target.value;
+    searchProducts(query);
+    if (query.trim()) {
+      document.getElementById("featured").scrollIntoView({ behavior: "smooth" });
+    }
+  }
+});
+
+// Close search overlay when clicking outside
+document.addEventListener("click", (e) => {
+  const overlay = document.getElementById("search-overlay");
+  if (!e.target.closest(".search-bar-wrap") && !e.target.closest("#search-btn")) {
+    overlay.classList.remove("open");
+  }
 });
 
 // ── Menu Toggle ──
@@ -317,7 +393,7 @@ function createParticles() {
     const p = document.createElement("div");
     p.classList.add("particle");
     const size = Math.random() * 5 + 2;
-    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*6+4}s;animation-delay:-${Math.random()*4}s;`;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*8+5}s;animation-delay:${Math.random()*2}s`;
     wrap.appendChild(p);
   }
 }
